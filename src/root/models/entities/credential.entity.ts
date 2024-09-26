@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Institution } from './institution.entity';
 
 @Entity({
   name: 'credentials',
@@ -13,4 +14,10 @@ export class Credential {
     unique: true,
   })
   password?: string;
+
+  @ManyToOne(() => Institution, (institution) => institution.credentials)
+  @JoinColumn({
+    name: 'institution_id'
+  })
+  institution?: Institution;
 }

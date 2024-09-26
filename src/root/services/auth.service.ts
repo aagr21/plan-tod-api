@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
+  
   constructor(
     @InjectRepository(Credential)
     private readonly credentialsRepository: Repository<Credential>,
@@ -18,6 +19,9 @@ export class AuthService {
     const credential = await this.credentialsRepository.findOne({
       where: {
         password,
+      },
+      relations: {
+        institution: true,
       },
     });
     if (!credential) throw new UnauthorizedException();

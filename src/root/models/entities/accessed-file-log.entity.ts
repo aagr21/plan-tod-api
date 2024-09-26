@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Institution } from './institution.entity';
 
 @Entity({
   name: 'accessed_files_logs',
@@ -21,4 +28,10 @@ export class AccessedFileLog {
     name: 'accessed_browser',
   })
   accessedBrowser?: string;
+
+  @ManyToOne(() => Institution, (institution) => institution.accessedFilesLogs)
+  @JoinColumn({
+    name: 'institution_id',
+  })
+  institution?: Institution;
 }

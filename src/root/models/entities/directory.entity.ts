@@ -25,7 +25,7 @@ export class Directory {
     default: false,
     name: 'is_file',
   })
-  isFile?: boolean; // Indica si es archivo o directorio
+  isFile?: boolean;
 
   @TreeChildren({
     cascade: true,

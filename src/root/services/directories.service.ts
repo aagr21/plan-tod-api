@@ -13,4 +13,30 @@ export class DirectoriesService {
   async findAll() {
     return await this.directoriesRepository.findTrees();
   }
+
+  async findLogs(id: number) {
+    const directory = await this.directoriesRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        accessedFilesLogs: {
+          institution: true,
+        },
+      },
+      order: {
+        accessedFilesLogs: {
+          accessedAt: 'DESC',
+        },
+      },
+    });
+
+    const ancestors = await this.directoriesRepository.findAncestors(directory);
+    const path = ancestors.map((dir) => dir.name).join('/');
+
+    return {
+      path,
+      ...directory,
+    };
+  }
 }

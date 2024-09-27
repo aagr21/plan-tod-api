@@ -1,11 +1,13 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Institution } from './institution.entity';
+import { Directory } from './directory.entity';
 
 @Entity({
   name: 'accessed_files_logs',
@@ -28,6 +30,18 @@ export class AccessedFileLog {
     name: 'accessed_browser',
   })
   accessedBrowser?: string;
+
+  @CreateDateColumn({
+    name: 'accessed_at',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  accessedAt?: Date;
+
+  @ManyToOne(() => Directory, (directory) => directory.accessedFilesLogs)
+  @JoinColumn({
+    name: 'directory_id'
+  })
+  directory?: Directory;
 
   @ManyToOne(() => Institution, (institution) => institution.accessedFilesLogs)
   @JoinColumn({

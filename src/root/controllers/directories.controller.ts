@@ -11,9 +11,4 @@ export class DirectoriesController {
   async findAll() {
     return this.directoriesService.findAll();
   }
-
-  @Get('seed')
-  async seed() {
-    return this.directoriesService.seed();
-  }
 }

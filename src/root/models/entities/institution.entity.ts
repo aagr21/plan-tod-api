@@ -18,5 +18,5 @@ export class Institution {
   credentials?: Credential[];
 
   @OneToMany(() => AccessedFileLog, (accessedFileLog) => accessedFileLog.institution)
-  accessedFilesLogs: AccessedFileLog[];
+  accessedFilesLogs?: AccessedFileLog[];
 }

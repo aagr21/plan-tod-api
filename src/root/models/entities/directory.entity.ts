@@ -6,7 +6,9 @@ import {
   TreeChildren,
   TreeParent,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import { AccessedFileLog } from './accessed-file-log.entity';
 
 @Entity({
   name: 'directories',
@@ -33,4 +35,7 @@ export class Directory {
   @TreeParent()
   @JoinColumn({ name: 'parent_id' })
   parent?: Directory;
+
+  @OneToMany(() => AccessedFileLog, (accessedFileLog) => accessedFileLog.directory)
+  accessedFilesLogs?: AccessedFileLog[];
 }

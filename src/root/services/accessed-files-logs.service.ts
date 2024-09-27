@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAccessedFileLogDto } from '@root/models/dto';
-import { AccessedFileLog, Institution } from '@root/models/entities';
+import { AccessedFileLog, Directory, Institution } from '@root/models/entities';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -10,14 +10,22 @@ export class AccessedFilesLogsService {
     @InjectRepository(AccessedFileLog)
     private readonly accessedFilesLogsRepository: Repository<AccessedFileLog>,
     @InjectRepository(Institution)
-    private readonly institutionRepository: Repository<Institution>,
+    private readonly institutionsRepository: Repository<Institution>,
+    @InjectRepository(Directory)
+    private readonly directoriesRepository: Repository<Directory>,
   ) {}
 
   async create(createAccessedFileLogDto: CreateAccessedFileLogDto) {
-    const { institutionId, ...rest } = createAccessedFileLogDto;
-    const institution = await this.institutionRepository.findOne({
+    const { institutionId, directoryId, ...rest } = createAccessedFileLogDto;
+    const institution = await this.institutionsRepository.findOne({
       where: {
         id: institutionId,
+      },
+    });
+
+    const directory = await this.directoriesRepository.findOne({
+      where: {
+        id: directoryId,
       },
     });
 
@@ -25,6 +33,7 @@ export class AccessedFilesLogsService {
       this.accessedFilesLogsRepository.create({
         ...rest,
         institution,
+        directory,
       });
 
     return await this.accessedFilesLogsRepository.save(newAccessedFileLog);

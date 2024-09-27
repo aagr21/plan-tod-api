@@ -16,4 +16,8 @@ export class CreateAccessedFileLogDto {
   @IsNotEmpty()
   @IsNumber()
   institutionId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  directoryId: number;
 }
